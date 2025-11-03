@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Comforter&family=Corben:wght@400;700&family=Gelasio:ital,wght@0,400..700;1,400..700&family=Gluten:wght@100..900&family=Hahmlet:wght@100..900&family=Knewave&family=Mrs+Sheppards&family=Oranienbaum&display=swap');
+
+.range, .header-p, .sidenav{
+  font-family: Corben;
+}
+
+
+@font-face {
+  font-family: 'Brigita';
+  src: url('/fonts/Brigita.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Brigita';
+  src: url('/fonts/gradientsemibold-jem9m.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

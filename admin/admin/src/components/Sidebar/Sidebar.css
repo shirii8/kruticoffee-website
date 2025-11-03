@@ -1,0 +1,9 @@
+.sidebar-option.active {
+    background-color: #331F18;
+    border-color: whitesmoke;
+}
+
+/* This selector targets elements with class .active that are descendants (child or nested)
+ inside an element with .sidebar-option. However, NavLink itself gets the active class, so the active is not inside 
+ .sidebar-option but on the same element.
+You need to target .sidebar-option when it also has the .active class on it, which is: */
