@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react';
-import Range from './Range';
-import { Link, useNavigate } from 'react-router-dom';
-import { StoreContext } from '../context/StoreContext'; // FIXED: Removed getTotalCartAmount import
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { StoreContext } from "../context/StoreContext"; // FIXED: Removed getTotalCartAmount import
 
-const Navbar = ({setShowLogin}) => {
-  const [menu, setMenu]=useState("home");
-  const {getTotalCartAmount, token, setToken}=useContext(StoreContext);
+const Navbar = ({ setShowLogin }) => {
+  const [menu, setMenu] = useState("home");
+  const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
   const navigate = useNavigate();
   // ADDED: logout function
   const logout = () => {
     setToken("");
     localStorage.removeItem("token");
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -23,29 +22,34 @@ const Navbar = ({setShowLogin}) => {
       />
 
       {/* Flex row: Sidebar + content */}
-      <div className="flex flex-row relative z-10" style={{ minHeight: "100vh" }}>
-
+      <div
+        className="flex flex-row relative z-10"
+        style={{ minHeight: "100vh" }}
+      >
         {/* Sidebar */}
-        <aside className="sidenav flex z-50 flex-col sticky top-0 left-0 items-center justify-start gap-2  gradient-to-b from-[#4c2b23] to-[#1a0f0b] border-r-2
-           border-[#b49e94] rounded-r-2xl p-6 w-[120px]  shadow-[4px_0_20px_rgba(0,0,0,0.4)]">
+        <aside
+          className="flex z-50 flex-col fixed top-0 left-0 items-center justify-start gap-2  gradient-to-b from-[#4c2b23] to-[#1a0f0b] border-r-2
+           border-[#b49e94] rounded-r-2xl p-6 w-[120px]  shadow-[4px_0_20px_rgba(0,0,0,0.4)]"
+        >
           <div className="relative w-20 h-20 overflow-hidden border-2 border-[#b49e94] rounded-b-full shadow-[0_8px_20px_rgba(139,69,19,0.4)]">
-            <Link to="/"><img
-              src="/images/navbaricon.jpg"
-              alt="Logo"
-              className="object-cover w-full h-full"
-            /></Link>
+            <Link to="/">
+              <img
+                src="/images/navbaricon.jpg"
+                alt="Logo"
+                className="object-cover w-full h-full"
+              />
+            </Link>
           </div>
 
           <nav className="flex flex-col items-center justify-center gap-1 mt-20 py-12 -mb-28 ">
             {[
               "HOME",
               "SPECIALTY COFFEE",
-              "BEST SELLING",
               "SHOP",
               "CAFES",
-              "ABOUT US",
+              // "ABOUT US",
               "HALL OF FAME",
-              "LOGIN",
+              // "LOGIN",
             ].map((item) => (
               <a
                 key={item}
@@ -62,7 +66,6 @@ const Navbar = ({setShowLogin}) => {
 
         {/* Main Content (vertical stack) */}
         <div className="flex-1 flex flex-col items-center justify-start">
-
           {/* Center Top Logo Section */}
           <div className="w-full flex flex-col items-center py-6 mt-4">
             <img
@@ -72,8 +75,12 @@ const Navbar = ({setShowLogin}) => {
             />
 
             {/*RIGHT NAV SEARCH+CART+LOGIN POPUP */}
-            <div className='nav-right flex flex-row absolute py-8 px-4 gap-4 top-0 right-0'>
-              <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2gtaWNvbiBsdWNpZGUtc2VhcmNoIj48cGF0aCBkPSJtMjEgMjEtNC4zNC00LjM0Ii8+PGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIvPjwvc3ZnPg==" alt="search" className='h-10 w-10' />
+            <div className="nav-right flex flex-row absolute py-8 px-4 gap-4 top-0 right-0">
+              <img
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2gtaWNvbiBsdWNpZGUtc2VhcmNoIj48cGF0aCBkPSJtMjEgMjEtNC4zNC00LjM0Ii8+PGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIvPjwvc3ZnPg=="
+                alt="search"
+                className="h-10 w-10"
+              />
 
               {/* CART ICON */}
               <div className="relative">
@@ -102,29 +109,28 @@ const Navbar = ({setShowLogin}) => {
                 </button>
               ) : (
                 <div className="relative group">
-
                   {/* Profile Icon */}
-                   <Link to="/profile">
-                  <img
-                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVzZXItaWNvbiBsdWNpZGUtdXNlciI+PHBhdGggZD0iTTE5IDIxdi0yYTQgNCAwIDAgMC00LTRIOWE0IDQgMCAwIDAtNCA0djIiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjciIHI9IjQiLz48L3N2Zz4="
-                    alt="profile"
-                    className="h-10 w-10 cursor-pointer flex flex-col gap-2.5 rounded-sm border border-amber-500 bg-amber-950 px-[25px] py-[12px] hover:flex"
-                  />
-                </Link>
+                  <Link to="/profile">
+                    <img
+                      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVzZXItaWNvbiBsdWNpZGUtdXNlciI+PHBhdGggZD0iTTE5IDIxdi0yYTQgNCAwIDAgMC00LTRIOWE0IDQgMCAwIDAtNCA0djIiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjciIHI9IjQiLz48L3N2Zz4="
+                      alt="profile"
+                      className="h-10 w-10 cursor-pointer flex flex-col gap-2.5 rounded-sm border border-amber-500 bg-amber-950 px-[25px] py-3 hover:flex"
+                    />
+                  </Link>
 
                   {/* Profile Dropdown */}
-                  <ul className="absolute right-0 mt-2 hidden group-hover:block
-                    bg-[#1e120f] text-white rounded-xl shadow-lg w-40 overflow-hidden">
-
+                  <ul
+                    className="absolute right-0 mt-2 hidden group-hover:block
+                    bg-[#1e120f] text-white rounded-xl shadow-lg w-40 overflow-hidden"
+                  >
                     <li className="px-4 py-2 hover:bg-[#a16d5c] cursor-pointer">
-                     
-                  <Link to="/ My Orders">
-                  <img
-                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJveC1pY29uIGx1Y2lkZS1ib3giPjxwYXRoIGQ9Ik0yMSA4YTIgMiAwIDAgMC0xLTEuNzNsLTctNGEyIDIgMCAwIDAtMiAwbC03IDRBMiAyIDAgMCAwIDMgOHY4YTIgMiAwIDAgMCAxIDEuNzNsNyA0YTIgMiAwIDAgMCAyIDBsNy00QTIgMiAwIDAgMCAyMSAxNloiLz48cGF0aCBkPSJtMy4zIDcgOC43IDUgOC43LTUiLz48cGF0aCBkPSJNMTIgMjJWMTIiLz48L3N2Zz4="
-                    alt=" My Orders"
-                    className="h-10 w-10 cursor-pointer rounded-full border border-white"
-                  />
-                </Link>
+                      <Link to="/ My Orders">
+                        <img
+                          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJveC1pY29uIGx1Y2lkZS1ib3giPjxwYXRoIGQ9Ik0yMSA4YTIgMiAwIDAgMC0xLTEuNzNsLTctNGEyIDIgMCAwIDAtMiAwbC03IDRBMiAyIDAgMCAwIDMgOHY4YTIgMiAwIDAgMCAxIDEuNzNsNyA0YTIgMiAwIDAgMCAyIDBsNy00QTIgMiAwIDAgMCAyMSAxNloiLz48cGF0aCBkPSJtMy4zIDcgOC43IDUgOC43LTUiLz48cGF0aCBkPSJNMTIgMjJWMTIiLz48L3N2Zz4="
+                          alt=" My Orders"
+                          className="h-10 w-10 cursor-pointer rounded-full border border-white"
+                        />
+                      </Link>
                     </li>
 
                     <li
@@ -132,13 +138,12 @@ const Navbar = ({setShowLogin}) => {
                       className="px-4 py-2 hover:bg-red-600 cursor-pointer"
                     >
                       <Link to="/Logout">
-                  <img
-                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWxvZy1vdXQtaWNvbiBsdWNpZGUtbG9nLW91dCI+PHBhdGggZD0ibTE2IDE3IDUtNS01LTUiLz48cGF0aCBkPSJNMjEgMTJIOSIvPjxwYXRoIGQ9Ik05IDIxSDVhMiAyIDAgMCAxLTItMlY1YTIgMiAwIDAgMSAyLTJoNCIvPjwvc3ZnPg=="
-                    alt="Logout"
-                    className="h-10 w-10 cursor-pointer rounded-full border border-white"
-                  />
-                </Link>
-                      
+                        <img
+                          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWxvZy1vdXQtaWNvbiBsdWNpZGUtbG9nLW91dCI+PHBhdGggZD0ibTE2IDE3IDUtNS01LTUiLz48cGF0aCBkPSJNMjEgMTJIOSIvPjxwYXRoIGQ9Ik05IDIxSDVhMiAyIDAgMCAxLTItMlY1YTIgMiAwIDAgMSAyLTJoNCIvPjwvc3ZnPg=="
+                          alt="Logout"
+                          className="h-10 w-10 cursor-pointer rounded-full border border-white"
+                        />
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -162,7 +167,3 @@ const Navbar = ({setShowLogin}) => {
 };
 
 export default Navbar;
-
-
-
- 
