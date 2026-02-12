@@ -7,7 +7,7 @@ import { StoreContext } from "../../context/StoreContext";
 
 const FoodItem = ({ id, name, price, description, image }) => {
     // const [itemCount, setItemCount]= useState(0);
-   const { cartItems, addToCart, removeFromCart } = useContext(StoreContext);
+   const { cartItems, addToCart, removeFromCart, url } = useContext(StoreContext);
 
   return (
     <div
@@ -15,7 +15,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
       style={{ transition: "0.3s", animation: "fadeIn 1s" }}
     >
       <div className="food-item-image-container relative">
-        <img className="food-item-image w-100% rounded-3xl" src={image} alt="" />
+        <img className="food-item-image w-100% rounded-3xl" src={url+"/images/"+image} alt="" />
         {!cartItems[id] ? <img className="add absolute bottom-3.5 right-3 bg-amber-950 rounded-full cursor h-8 w-8 mx-4 my-2" 
         onClick={()=>addToCart(id)} src={addIconWhite}/>
         : <div className="food-item-counter absolute bottom-3.5 right-3 p-1.5  flex gap-4 justify-between m-2 

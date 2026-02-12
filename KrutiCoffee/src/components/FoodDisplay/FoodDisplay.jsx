@@ -9,7 +9,7 @@ const FoodDisplay = ({category}) => {
 
   return (
     <div className='food-display mt-8 bg-[#221512]' id='food-display'>
-        <h2 className='text-[16px] font-bold'>Top Dishes near you</h2>
+        <h2 className='flex display justify-center text-[46px] text-amber-200/70 font-bold'>Top Dishes near you</h2>
      <div
             className="food-display-list grid mt-8 gap-8"
             style={{ gridTemplateColumns:"repeat(auto-fill, minmax(240px, 1fr))" }}
