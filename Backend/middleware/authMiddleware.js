@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-const authMiddleware=async(req,req,next)=>{
+const authMiddleware = async (req, res, next)=>{
     //connect it with cartRoute
     //get the token from the users uasing headers
     const {token}=req.headers;

@@ -27,7 +27,7 @@ const loginUser=async(req,res)=>{
 }
 
 const createToken = (id)=>{
-    return jwt.sign({id}, proccess.env.JWT_SECRET) //taken users id, used as data and then generated one token
+    return jwt.sign({id}, process.env.JWT_SECRET) //taken users id, used as data and then generated one token
 }
 
 //register user

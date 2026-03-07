@@ -11,7 +11,7 @@ import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 
-// J2ByklLeJgjd9WH8 mongo db password updated
+
 
 
 // app config
@@ -43,3 +43,5 @@ app.listen(port, ()=>{
 //mongodb+srv://shiri8:2oLrA2TaLmsTaabn@cluster0.8sa7sua.mongodb.net/?appName=Cluster0 old
 //mongodb+srv://shiri8:J2ByklLeJgjd9WH8@cluster0.8sa7sua.mongodb.net/?appName=Cluster0 new
 // mongodb+srv://shiri8:<db_password>@cluster0.f054s2s.mongodb.net/?appName=Cluster0
+
+// J2ByklLeJgjd9WH8 mongo db password updated
