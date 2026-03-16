@@ -1,8 +1,30 @@
 import foodModel from "../models/foodModel.js";
+// import fs from "fs"; // No longer needed for Cloudinary, but kept for reference
 
-// foodController.js
-const addFood = async(req, res) => {
-    // req.file.filename comes from Multer local storage
+// @desc    Add food item to Cloudinary & MongoDB
+const addFood = async (req, res) => {
+    try {
+        // This is now a full URL: https://res.cloudinary.com/...
+        const image_url = req.file.path; 
+
+        const food = new foodModel({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            category: req.body.category,
+            image: image_url, // We save the link, not just the name
+        });
+
+        await food.save();
+        res.json({ success: true, message: "Food Added Successfully" });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Error adding food" });
+    }
+}
+
+/* // LOCALLY SAVED FILES LOGIC (OLD)
+const addFoodLocal = async(req, res) => {
     let image_filename = `${req.file.filename}`; 
 
     const food = new foodModel({
@@ -21,28 +43,9 @@ const addFood = async(req, res) => {
         res.json({success: false, message: "Error saving to local DB"});
     }
 }
-// @desc    Add food item to Cloudinary & MongoDB
-// const addFood = async (req, res) => {
-//     try {
-//         // If you used the Multer-Cloudinary storage as discussed, 
-//         // req.file.path is the FULL URL of the image on the cloud.
-//         const image_url = req.file.path;
+*/
 
-//         const food = new foodModel({
-//             name: req.body.name,
-//             description: req.body.description,
-//             price: req.body.price,
-//             category: req.body.category,
-//             image: image_url, // Storing the global link directly
-//         });
 
-//         await food.save();
-//         res.json({ success: true, message: "Food added to the Cloud Gallery" });
-//     } catch (error) {
-//         console.error("Upload Error:", error);
-//         res.json({ success: false, message: "Failed to upload to Cloud" });
-//     }
-// };
 
 // @desc    List all food items
 const listFood = async (req, res) => {
@@ -55,78 +58,44 @@ const listFood = async (req, res) => {
     }
 };
 
-// @desc    Remove food item (Note: Clean up in DB)
+// @desc    Remove food item from MongoDB
 const removeFood = async (req, res) => {
     try {
-        // We find the item first to ensure it exists
         const food = await foodModel.findById(req.body.id);
         
         if (!food) {
             return res.json({ success: false, message: "Food not found" });
         }
 
-        // NOTE: With Cloudinary, you don't use fs.unlink (that's for local files).
-        // You would use cloudinary.uploader.destroy(public_id) if you wanted 
-        // to delete from the cloud too, but for now, let's clean the DB.
-        
+        /**
+         * CLOUDINARY NOTE:
+         * We do NOT use fs.unlink here because the image isn't on our server.
+         * To delete from Cloudinary as well, you would use:
+         * cloudinary.v2.uploader.destroy(public_id)
+         */
+
         await foodModel.findByIdAndDelete(req.body.id);
-        res.json({ success: true, message: "Item removed from collection" });
+        res.json({ success: true, message: "Food removed from database" });
+
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "Error during removal" });
     }
 };
 
+/* // REMOVE FOOD LOCAL LOGIC (OLD)
+const removeFoodLocal = async(req, res)=>{
+    try{
+        const food = await foodModel.findById(req.body.id);
+        fs.unlink(`uploads/${food.image}`, ()=>{}) // Deleting local file
+
+        await foodModel.findByIdAndDelete(req.body.id);
+        res.json({success:true, message:"Food Removed Locally"})
+    }catch (error){
+        console.log(error);
+        res.json({success:false, message: "Error"});
+    }
+}
+*/
+
 export { addFood, listFood, removeFood };
-
-// import foodModel from "../models/foodModel.js";
-// import fs from "fs" //pre built in node.js
-
-// //add food item
-
-// const addFood = async(req, res)=>{
-//     let image_filename= `${req.file.filename}`;
-
-//     const food= new foodModel({
-//         name: req.body.name,
-//         description: req.body.description,
-//         price: req.body.price,
-//         category: req.body.category,
-//         image: image_filename,
-//     })
-
-//     try{
-//         await food.save();
-//         res.json({success:true, message: "Food added"})
-//     } catch(error){
-//         console.log(error)
-//         res.json({success:false, message: "Error"})
-//     }
-// }
-
-// //all food list
-// const listFood= async(req, res)=>{
-//     try{
-//         const foods= await foodModel.find({})
-//         res.json({success:true, data: foods})
-//     } catch(error){
-//         console.log(error)
-//         res.json({success:false, message:"Error"})
-//     }
-// }
-
-// //remove food item
-// const removeFood=async(req, res)=>{
-//     try{
-//         const food = await foodModel.findById(req.body.id);
-//         fs.unlink(`uploads/$food.image`, ()=>{})
-
-//         await foodModel.findByDelete(req.body.id);
-//         res.json({success:true, message:"Food Removed"})
-//     }catch (error){
-//         console.log(error);
-//         res.json({success:false, message: "Error"});
-//     }
-// }
-
-// export  {addFood, listFood, removeFood}

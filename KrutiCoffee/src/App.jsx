@@ -17,6 +17,7 @@ import About from "./pages/About/About";
 import OurStory from "./components/OurStory";
 import Delivery from "./components/Delivery";
 import Privacypolicy from "./components/Privacypolicy";
+import MyOrders from "./pages/MyOrders/MyOrders";
 
 // HELPER: Forces the window to top/ID when the URL changes
 const ScrollToTop = () => {
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/verify" element={<Verify />} />
+          <Route path="/myorders" element={<MyOrders />} />
         </Routes>
       </div>
 

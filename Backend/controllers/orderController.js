@@ -5,41 +5,44 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrder = async (req, res) => {
-    const frontend_url = "http://localhost:5173";
+    // In production, use environment variables for your URL
+    const frontend_url = process.env.FRONTEND_URL || "http://localhost:5173";
+    
     try {
         // 1. Create and Save Order
+        // Note: Ensure userId comes from your auth middleware (req.userId) 
+        // rather than req.body to prevent users from ordering for others.
         const newOrder = new orderModel({
-            userId: req.body.userId, // Added missing comma
+            userId: req.body.userId, 
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address
         });
         await newOrder.save();
 
-        // Note: I recommend clearing the cart only AFTER successful payment 
-        // in your /verify route, but keeping your logic here for now:
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
-
         // 2. Prepare Stripe Line Items
-        const line_items = req.body.items.map((item) => ({ // Added parentheses for implicit return
+        const line_items = req.body.items.map((item) => ({
             price_data: {
                 currency: "inr",
                 product_data: {
                     name: item.name
                 },
-                unit_amount: item.price * 100 * 80 // Be careful with this multiplier logic
+                // Stripe expects amounts in the smallest currency unit (paise for INR).
+                // Careful: item.price * 100 * 80 assumes price is in USD and 
+                // you're hardcoding a conversion rate. Better to use fixed INR prices.
+                unit_amount: item.price * 100 
             },
-            quantity: item.quantity // Removed semicolon
+            quantity: item.quantity
         }));
 
-        // Add Delivery Charges
+        // Add Delivery Charges (e.g., ₹40 delivery)
         line_items.push({
             price_data: {
                 currency: "inr",
                 product_data: {
-                    name: "Delivery charges",
+                    name: "Delivery Charges",
                 },
-                unit_amount: 2 * 100 * 80 
+                unit_amount: 40 * 100, 
             },
             quantity: 1
         });
@@ -52,35 +55,51 @@ const placeOrder = async (req, res) => {
             cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
         });
 
-        // 4. Send the session URL back to frontend
         res.json({
             success: true,
-            session_url: session.url // Fixed variable name
+            session_url: session.url 
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ // Good practice to use status codes
+        console.error("Stripe Session Error:", error);
+        res.status(500).json({
             success: false,
-            message: "Error processing payment"
+            message: "Initialization failed"
         });
     }
 }
 
-//temporary verify order
-const verifyOrder = async (req, res) => { // Changed (req, req) to (req, res)
+const verifyOrder = async (req, res) => {
     const { orderId, success } = req.body;
     try {
         if (success === "true" || success === true) {
+            // Update order status
             await orderModel.findByIdAndUpdate(orderId, { payment: true });
-            res.json({ success: true, message: "Paid" }); // Use res, not req
+            
+            // Clear user cart only after confirmed payment
+            const order = await orderModel.findById(orderId);
+            await userModel.findByIdAndUpdate(order.userId, { cartData: {} });
+
+            res.json({ success: true, message: "Payment verified successfully" });
         } else {
+            // If payment failed/cancelled, we delete the pending order
             await orderModel.findByIdAndDelete(orderId);
-            res.json({ success: false, message: "Not Paid" });
+            res.json({ success: false, message: "Payment cancelled" });
         }
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error" });
+        console.error("Verification Error:", error);
+        res.status(500).json({ success: false, message: "Verification failed" });
     }
 }
-export { placeOrder ,verifyOrder};
+
+const userOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.find({ userId: req.body.userId });
+        res.json({ success: true, data: orders });
+    } catch (error) {
+        console.error("Fetch Orders Error:", error);
+        res.status(500).json({ success: false, message: "Could not retrieve orders" });
+    }
+}
+
+export { placeOrder, verifyOrder, userOrders };

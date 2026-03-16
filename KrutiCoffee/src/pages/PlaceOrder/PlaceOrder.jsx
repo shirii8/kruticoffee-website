@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
   const { getTotalCartAmount, cartItems, token, food_list, url } = useContext(StoreContext);
@@ -15,6 +16,17 @@ const PlaceOrder = () => {
   const total = getTotalCartAmount() + deliveryFee;
 
   const inputClass = "w-full px-6 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-0 border-b-white/30 text-[#f4e3d8] focus:border-[#ad8656] focus:bg-white/10 transition-all duration-500 outline-none placeholder:text-white/20 placeholder:uppercase placeholder:text-[10px] placeholder:tracking-[0.2em]";
+
+  const navigate=useNavigate();
+
+  useEffect(()=>{
+      if(!token){
+        navigate('/cart')
+      }
+      else if(getTotalCartAmount===0){
+        navigate('/cart');
+      }
+  },[token])
 
   return (
     <div className="relative min-h-screen bg-[#0a0a0a] overflow-hidden font-sans text-[#f4e3d8] selection:bg-[#b49e94] selection:text-black">
