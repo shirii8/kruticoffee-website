@@ -76,6 +76,7 @@ const registerUser = async (req, res) => {
     // Change this temporarily so you can see the REAL error in Thunder Client
     res.status(500).json({ success: false, message: error.message }); 
 }
+
 };
 
 export { loginUser, registerUser };

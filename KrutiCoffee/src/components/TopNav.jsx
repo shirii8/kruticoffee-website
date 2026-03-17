@@ -2,15 +2,18 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout }) => {
-  const navigate = useNavigate(); // Necessary for the navigate() call in your li
+  const navigate = useNavigate();
 
   return (
     /* Floating Action Hub Wrap */
     <div className="absolute top-0 right-0 z-[100] py-10 px-8 lg:px-12">
+      
       {/* GLASSMORPHISM TAB: The Control Slab */}
       <div className="flex items-center gap-2 p-2 rounded-2xl bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-        {/* UTILITIES GROUP (Search & Cart) */}
+        
+        {/* UTILITIES GROUP (Search, Cart, Admin) */}
         <div className="flex items-center gap-5 px-4">
+          
           {/* Search */}
           <button className="group relative">
             <img
@@ -33,6 +36,24 @@ const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout }) => {
               <span className="absolute -top-1 -right-1 h-2 w-2 bg-[#b49e94] rounded-full shadow-[0_0_8px_#b49e94] animate-pulse"></span>
             )}
           </div>
+
+          {/* Admin Portal Link - Now integrated into the main bar */}
+          <a 
+            href="http://localhost:5174" 
+            target="_blank" 
+            rel="noreferrer"
+            className="group relative"
+            title="Open Admin Dashboard"
+          >
+            <svg 
+              className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-all group-hover:scale-110 text-white" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </a>
         </div>
 
         {/* Vertical Aesthetic Divider */}
@@ -50,8 +71,7 @@ const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout }) => {
           </div>
         ) : (
           <div className="relative group px-2 py-2">
-            {" "}
-            {/* Added padding to bridge the gap for hover */}
+            
             {/* Profile Avatar Trigger */}
             <div className="h-8 w-8 opacity-40 group-hover:opacity-100 group-hover:scale-110 cursor-pointer rounded-full border border-white/10 p-[2px] group-hover:border-[#b49e94]/60 transition-all bg-white/5 overflow-hidden">
               <img
@@ -60,8 +80,9 @@ const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout }) => {
                 className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity invert"
               />
             </div>
-            {/* Slab Dropdown */}
-            <ul className="absolute right-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-[#1a0f0b]/95 border border-white/10 text-white rounded-2xl shadow-2xl w-48 overflow-hidden backdrop-blur-3xl z-[110]">
+
+            {/* Slab Dropdown Menu */}
+            <ul className="absolute right-0 mt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-[#1a0f0b]/95 border border-white/10 text-white rounded-2xl shadow-2xl w-48 overflow-hidden backdrop-blur-3xl z-[110]">
               <li onClick={() => navigate("/myorders")}>
                 <div className="flex items-center px-6 py-4 text-[9px] tracking-[0.2em] font-black uppercase hover:bg-white/5 transition-all text-white/60 hover:text-[#b49e94] cursor-pointer">
                   My Orders

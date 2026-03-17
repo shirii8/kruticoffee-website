@@ -6,7 +6,7 @@ import "./index.css";
 import Footer from "./components/Footer/Footer";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import Shop from "./components/Shop";
-import Marquee from './components/Marquee';
+import Marquee from "./components/Marquee";
 
 // Pages
 import Home from "./pages/Home";
@@ -18,6 +18,8 @@ import OurStory from "./components/OurStory";
 import Delivery from "./components/Delivery";
 import Privacypolicy from "./components/Privacypolicy";
 import MyOrders from "./pages/MyOrders/MyOrders";
+import SideNavbar from "./components/SideNavbar";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
 
 // HELPER: Forces the window to top/ID when the URL changes
 const ScrollToTop = () => {
@@ -44,31 +46,41 @@ const App = () => {
   return (
     <div className="bg-[#221512] min-h-screen text-[#b49e94]">
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
-      
+
       {/* 1. Logic Helper */}
       <ScrollToTop />
 
       {/* 2. Main Page Content */}
       <div className="w-full">
         <Routes>
-          <Route path="/" element={<Home setShowLogin={setShowLogin} />} />
+        {/* Components ROUTES */}
           <Route path="/our-story" element={<OurStory />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/about" element={<Delivery/>} />
-          <Route path="/about" element={<Privacypolicy/>} />
+          <Route path="/delivery" element={<Delivery />} /> 
+          <Route path="/privacy-policy" element={<Privacypolicy />} />
+         
+            {/* Pages ROUTES */}
+           <Route path="/about" element={<About />} />
+            <Route path="/" element={<Home setShowLogin={setShowLogin} />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/myorders" element={<MyOrders />} />
+          <Route path="/shop/:category" element={<CategoryPage />} />
+
         </Routes>
+      </div>
+
+      <div className="fixed top-0 left-0 h-screen w-[60px] bg-[#1a0f0b] z-50">
+        <SideNavbar /> /*Otherwise It was being renderend in block so was
+        creating a lot of empty space between cart and shop */
       </div>
 
       {/* 3. Global Components (Persistent across pages) */}
       {/* Added responsive padding and corrected layout flow */}
-      <div className="w-full pl-0 lg:pl-[120px]"> 
+      <div className="w-full pl-0 lg:pl-[120px]">
         <Shop />
-        
-        <div className="w-full pt-6"> 
+
+        <div className="w-full pt-6">
           <Marquee />
         </div>
 

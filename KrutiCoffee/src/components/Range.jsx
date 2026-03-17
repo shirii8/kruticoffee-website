@@ -2,20 +2,27 @@ import React from 'react';
 import coffeeImage from "../assets/frontend_assets/CoffeeOrderGraffiti.png";
 
 const Range = ({ setCategory }) => { 
-  const roasts = [1, 2, 3, 4, 5];
+  // Map these to the actual categories in your MongoDB to make them functional
+  const roasts = [
+    { id: 1, name: "Hot Coffees" },
+    { id: 2, name: "Coffees Served Cold" },
+    { id: 3, name: "Manual Brews" },
+    { id: 4, name: "Savory Selection" },
+    { id: 5, name: "Coffee Mocktails" }
+  ];
 
-  const handleEngagement = () => {
-    // 1. Change the category logic to filter the menu below
+  const handleEngagement = (categoryName) => {
     if (setCategory) {
-      setCategory("Coffee"); 
+      setCategory(categoryName); 
     }
 
-    // 2. Smooth scroll to the menu engagement point (Make sure ExploreMenu has this ID)
+    // Smooth scroll to the menu
     const menuSection = document.getElementById('explore-menu');
     if (menuSection) {
-      menuSection.scrollIntoView({ behavior: 'smooth' });
+      menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+  
 
   return (
     <div id='original-coffee' className="w-full bg-[#b49e94] py-12 px-4 lg:px-20 overflow-x-hidden relative ml-[60px]">
@@ -53,8 +60,8 @@ const Range = ({ setCategory }) => {
 
         {/* Range Bar Container */}
         <div className="-mt-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-8 rounded-[2rem] bg-[#1a0f0b]/80 backdrop-blur-4xl border border-[#4c2b23] px-8 py-2 lg:p-12 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]">
-          {roasts.map((num) => (
-            <div key={num} className="group relative flex flex-col items-center flex-1 min-w-[200px]">
+          {roasts.map((item) => (
+            <div key={item.id} className="group relative flex flex-col items-center flex-1 min-w-[200px]">
               <div className="absolute top-4 left-4 w-full h-full bg-[#b49e94] border border-[#b49e94]/10 rounded-2xl transition-all duration-500 group-hover:translate-x-3 group-hover:translate-y-3"></div>
 
               {/* Card Body - Now Clickable */}
@@ -65,14 +72,14 @@ const Range = ({ setCategory }) => {
                 <div className="relative h-48 w-full p-6 overflow-hidden">
                   <img
                     src={coffeeImage}
-                    alt={`Roast ${num}`}
+                    alt={`Roast ${item.name}`}
                     className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6"
                   />
                 </div>
 
                 <div className="w-full bg-[#1a0f0b]/90 backdrop-blur-md py-5 px-3 flex flex-col items-center border-t border-[#4c2b23]">
                   <span className="text-[8px] font-bold tracking-[0.5em] text-[#b49e94] uppercase opacity-70 mb-2">Artisan Batch</span>
-                  <span className="font-serif italic text-[#f4e3d8] text-lg tracking-wide">Roast No. 0{num}</span>
+                  <span className="font-serif italic text-[#f4e3d8] text-lg tracking-wide">{item.name}</span>
                   
                   {/* Visual CTA Button inside the card */}
                   <div className="mt-4 px-4 py-1.5 border border-[#b49e94]/20 group-hover:border-[#b49e94] group-hover:bg-[#b49e94] transition-all duration-500">
@@ -83,9 +90,9 @@ const Range = ({ setCategory }) => {
                 </div>
               </div>
 
-              {/* Ghost Numbering */}
+              {/* Ghost numbering */}
               <span className="absolute -top-8 -right-4 text-6xl font-black text-white/[0.02] italic pointer-events-none group-hover:text-[#b49e94] transition-all duration-500">
-                0{num}
+                0{item.id}
               </span>
             </div>
           ))}

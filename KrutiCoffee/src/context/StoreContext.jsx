@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { Shop_list } from "../assets/admin_assets/ShopJson.js";
 
 export const StoreContext = createContext(null);
 
@@ -8,6 +9,8 @@ const StoreContextProvider = (props) => {
     const [food_list, setFood_list] = useState([]);
     const [token, setToken] = useState("");
     const url = "http://localhost:4000";
+
+    
 
     // Adds items to cart and syncs with database if logged in
     const addToCart = async (itemId) => {
@@ -45,14 +48,31 @@ const StoreContextProvider = (props) => {
         return totalAmount;
     };
 
+    // const fetchFoodList = async () => {
+    //     try {
+    //         const response = await axios.get(url + "/api/food/list");
+    //         setFood_list(response.data.data);
+    //     } catch (error) {
+    //         console.error("Error fetching food list", error);
+    //     }
+    // };
+
     const fetchFoodList = async () => {
-        try {
-            const response = await axios.get(url + "/api/food/list");
+    try {
+        const response = await axios.get(url + "/api/food/list");
+        console.log("Full Response:", response.data); // Look at your console!
+        
+        // If your backend returns {success:true, data:[...]} use response.data.data
+        // If your backend returns just the array [...] use response.data
+        if(response.data.success) {
             setFood_list(response.data.data);
-        } catch (error) {
-            console.error("Error fetching food list", error);
+        } else {
+            setFood_list(response.data); 
         }
-    };
+    } catch (error) {
+        console.error("Backend is not responding!", error);
+    }
+};
 
     const loadCartData = async (token) => {
         const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
@@ -74,6 +94,7 @@ const StoreContextProvider = (props) => {
 
     const contextValue = {
         food_list,
+        Shop_list,
         cartItems,
         setCartItems,
         addToCart,

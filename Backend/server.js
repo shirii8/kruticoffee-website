@@ -9,6 +9,7 @@ import userRouter from "./routes/userRoute.js"
 import 'dotenv/config' //to include env file in our project
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import adminRouter from "./routes/adminRoute.js";
 
 
 
@@ -31,6 +32,7 @@ app.use("/images", express.static('uploads'))
 app.use("/api/user",userRouter)
 app.use("/api/cart",cartRouter)
 app.use("/api/order",orderRouter)
+app.use("/api/admin", adminRouter);
 
 app.get("/", (req, response)=>{
         response.send("API Working")
