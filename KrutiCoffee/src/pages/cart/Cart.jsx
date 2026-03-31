@@ -105,7 +105,7 @@ const Cart = () => {
               <button 
                 onClick={() => navigate('/order')} 
                 disabled={subtotal === 0}
-                className={`w-full mt-10 py-5 font-brand text-xs font-bold tracking-[0.3em] transition-all duration-500 shadow-2xl ${
+                className={`w-full mt-10 py-5 font-brand text-xs font-bold tracking-[0.3em] transition-all duration-500 shadow-2xl ₹{
                   subtotal === 0 ? "bg-gray-800 text-gray-500 cursor-not-allowed" : "bg-[#f4e3d8] text-[#1a0f0b] hover:bg-[#b49e94]"
                 }`}
               >

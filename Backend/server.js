@@ -1,19 +1,14 @@
-import dotenv from "dotenv";
-dotenv.config();
+import 'dotenv/config'; // This is a special "pre-load" import
 console.log("MONGO_URI =", process.env.MONGO_URI);
 import  express from "express"
 import  cors from "cors"
 import { connectDB } from "./config/db.js"
 import foodRouter from "./routes/foodRoute.js"
 import userRouter from "./routes/userRoute.js"
-import 'dotenv/config' //to include env file in our project
+// import 'dotenv/config' //to include env file in our project
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import adminRouter from "./routes/adminRoute.js";
-
-
-
-
 
 // app config
 const app = express()
@@ -41,9 +36,3 @@ app.get("/", (req, response)=>{
 app.listen(port, ()=>{
     console.log(`Server Started on http://localhost:${port}`)
 })
-
-//mongodb+srv://shiri8:2oLrA2TaLmsTaabn@cluster0.8sa7sua.mongodb.net/?appName=Cluster0 old
-//mongodb+srv://shiri8:J2ByklLeJgjd9WH8@cluster0.8sa7sua.mongodb.net/?appName=Cluster0 new
-// mongodb+srv://shiri8:<db_password>@cluster0.f054s2s.mongodb.net/?appName=Cluster0
-
-// J2ByklLeJgjd9WH8 mongo db password updated

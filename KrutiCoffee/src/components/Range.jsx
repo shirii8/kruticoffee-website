@@ -2,7 +2,6 @@ import React from 'react';
 import coffeeImage from "../assets/frontend_assets/CoffeeOrderGraffiti.png";
 
 const Range = ({ setCategory }) => { 
-  // Map these to the actual categories in your MongoDB to make them functional
   const roasts = [
     { id: 1, name: "Hot Coffees" },
     { id: 2, name: "Coffees Served Cold" },
@@ -15,83 +14,89 @@ const Range = ({ setCategory }) => {
     if (setCategory) {
       setCategory(categoryName); 
     }
-
-    // Smooth scroll to the menu
     const menuSection = document.getElementById('explore-menu');
     if (menuSection) {
       menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-  
 
   return (
-    <div id='original-coffee' className="w-full bg-[#b49e94] py-12 px-4 lg:px-20 overflow-x-hidden relative ml-[60px]">
-      {/* Background Decor Elements */}
-      <div className="absolute top-0 left-0 w-[45vw] h-full bg-[#221512] skew-x-[-12deg] -translate-x-20 z-0 border-r border-[#4c2b23]/30"></div>
+    /* Removed ml-[60px] to prevent mobile overflow */
+    <div id='original-coffee' className="w-full bg-[#b49e94] py-12 px-6 md:px-12 ml-[70px] overflow-hidden relative">
+      
+      {/* Background Decor Elements - Made full-width on mobile */}
+      <div className="absolute top-0 left-0 w-full lg:w-[45vw] h-full bg-[#221512] lg:skew-x-[-12deg] lg:-translate-x-20 z-0 border-r border-[#4c2b23]/30"></div>
       
       <div className="relative z-10 max-w-[1400px] mx-auto">
-        <div className="relative group/header flex flex-col items-center lg:items-start py-12 transition-all duration-500">
+        
+        {/* Header Section */}
+        <div className="relative group/header flex flex-col items-center lg:items-start py-8 md:py-12 transition-all duration-500">
           <div className="relative flex flex-col items-center lg:items-start">
-            {/* LAYER 1: Glass Plate */}
-            <div className="-z-2 relative z-30 px-6 mb-[-1.2rem] lg:mb-[-1.8rem] ml-0 lg:ml-[-1.5rem] transform group-hover/header:-translate-y-1 transition-transform duration-500">
-              <div className="inline-block px-6 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-sm shadow-[10px_10px_30px_rgba(0,0,0,0.5)]">
-                <h3 className="text-[#f4e3d8] text-3xl md:text-5xl font-serif italic tracking-tighter leading-none select-none">
+            
+            {/* LAYER 1: Signature Tag */}
+            <div className="relative z-30 px-4 mb-[-1rem] lg:mb-[-1.8rem] transform group-hover/header:-translate-y-1 transition-transform duration-500">
+              <div className="inline-block px-4 py-1 md:px-6 md:py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-sm shadow-xl">
+                <h3 className="text-[#f4e3d8] text-2xl md:text-5xl font-serif italic tracking-tighter leading-none">
                   Signature
                 </h3>
               </div>
             </div>
 
-            {/* LAYER 2: Structural Block */}
+            {/* LAYER 2: Roasts Title */}
             <div className="relative z-20">
-              <div className="absolute inset-0 bg-[#47221a] translate-x-1 translate-y-2 md:translate-x-2 md:translate-y-4 rounded-sm" />
-              <div className="relative px-8 md:px-16 py-6 md:py-8 bg-[#1a0f0b] border-l-[6px] border-[#b49e94] shadow-2xl overflow-hidden">
-                <h2 className="text-[#b49e94] font-sans font-black uppercase text-4xl md:text-7xl tracking-[0.2em] md:tracking-[0.3em] leading-none relative z-10">
+              <div className="absolute inset-0 bg-[#47221a] translate-x-1 translate-y-1 md:translate-x-2 md:translate-y-4 rounded-sm" />
+              <div className="relative px-6 py-4 md:px-16 md:py-8 bg-[#1a0f0b] border-l-[4px] md:border-l-[6px] border-[#b49e94] shadow-2xl">
+                <h2 className="text-[#b49e94] font-sans font-black uppercase text-3xl md:text-7xl tracking-[0.15em] md:tracking-[0.3em] leading-none">
                   Roasts
                 </h2>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col items-center lg:items-start gap-1">
-            <p className="text-[10px] tracking-[0.6em] text-[#b49e94] uppercase font-bold opacity-60">The Koraput Collection</p>
-            <p className="text-[#f4e3d8] font-serif italic text-xs">Architectural roasting for the modern soul.</p>
+          <div className="mt-6 flex flex-col items-center lg:items-start gap-1 text-center lg:text-left">
+            <p className="text-[8px] md:text-[10px] tracking-[0.4em] md:tracking-[0.6em] text-[#b49e94] uppercase font-bold opacity-60">The Koraput Collection</p>
+            <p className="text-[#f4e3d8] font-serif italic text-xs md:text-sm">Architectural roasting for the modern soul.</p>
           </div>
         </div>
 
-        {/* Range Bar Container */}
-        <div className="-mt-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-8 rounded-[2rem] bg-[#1a0f0b]/80 backdrop-blur-4xl border border-[#4c2b23] px-8 py-2 lg:p-12 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]">
+        {/* Range Bar Container - Switched to Responsive Grid */}
+        <div className="mt-4 -ml-[20px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 sm:gap-8 rounded-3xl lg:rounded-[2rem] bg-[#1a0f0b]/80 backdrop-blur-xl border border-[#4c2b23] p-10 lg:p-12 shadow-2xl">
           {roasts.map((item) => (
-            <div key={item.id} className="group relative flex flex-col items-center flex-1 min-w-[200px]">
-              <div className="absolute top-4 left-4 w-full h-full bg-[#b49e94] border border-[#b49e94]/10 rounded-2xl transition-all duration-500 group-hover:translate-x-3 group-hover:translate-y-3"></div>
+            <div key={item.id} className="group relative flex flex-col items-center">
+              
+              {/* (RESTORED) Background Shadow Card - Made visible on all screen sizes */}
+              <div className="absolute top-3 left-3 w-full h-full bg-[#b49e94] border border-[#b49e94]/10 rounded-2xl transition-all duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>
 
-              {/* Card Body - Now Clickable */}
+              {/* Main Clickable Card Body */}
               <div 
-                onClick={handleEngagement}
+                onClick={() => handleEngagement(item.name)}
                 className="relative z-10 w-full bg-[#221512]/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:border-[#b49e94]/40 cursor-pointer"
               >
-                <div className="relative h-48 w-full p-6 overflow-hidden">
+                {/* Image Container */}
+                <div className="relative h-40 md:h-48 w-full p-4 md:p-6 overflow-hidden flex justify-center">
                   <img
                     src={coffeeImage}
-                    alt={`Roast ${item.name}`}
-                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6"
+                    alt={item.name}
+                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 group-hover:rotate-3"
                   />
                 </div>
 
-                <div className="w-full bg-[#1a0f0b]/90 backdrop-blur-md py-5 px-3 flex flex-col items-center border-t border-[#4c2b23]">
-                  <span className="text-[8px] font-bold tracking-[0.5em] text-[#b49e94] uppercase opacity-70 mb-2">Artisan Batch</span>
-                  <span className="font-serif italic text-[#f4e3d8] text-lg tracking-wide">{item.name}</span>
+                {/* Card Info */}
+                <div className="w-full bg-[#1a0f0b]/90 backdrop-blur-md py-4 px-2 flex flex-col items-center border-t border-[#4c2b23]">
+                  <span className="text-[7px] md:text-[8px] font-bold tracking-[0.4em] text-[#b49e94] uppercase opacity-70 mb-1">Artisan Batch</span>
+                  <span className="font-serif italic text-[#f4e3d8] text-sm md:text-base lg:text-lg text-center">{item.name}</span>
                   
-                  {/* Visual CTA Button inside the card */}
-                  <div className="mt-4 px-4 py-1.5 border border-[#b49e94]/20 group-hover:border-[#b49e94] group-hover:bg-[#b49e94] transition-all duration-500">
-                    <span className="text-[8px] text-[#b49e94] group-hover:text-[#1a0f0b] font-black uppercase tracking-widest">
+                  {/* View Menu CTA Button */}
+                  <div className="mt-3 px-3 py-1 md:px-4 md:py-1.5 border border-[#b49e94]/20 group-hover:border-[#b49e94] group-hover:bg-[#b49e94] transition-all duration-500">
+                    <span className="text-[7px] md:text-[8px] text-[#b49e94] group-hover:text-[#1a0f0b] font-black uppercase tracking-widest">
                       View Menu
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Ghost numbering */}
-              <span className="absolute -top-8 -right-4 text-6xl font-black text-white/[0.02] italic pointer-events-none group-hover:text-[#b49e94] transition-all duration-500">
+              {/* (RESTORED) Ghost numbering - Adjusted positioning for mobile grid spacing */}
+              <span className="absolute -top-10 sm:-top-8 -right-4 text-7xl font-black text-white/[0.02] italic pointer-events-none group-hover:text-[#b49e94] transition-all duration-500">
                 0{item.id}
               </span>
             </div>

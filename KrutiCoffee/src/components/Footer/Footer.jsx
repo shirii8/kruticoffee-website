@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom'; // Essential for navigation
-import { HashLink } from 'react-router-hash-link'; // Optional: for smooth scrolling to IDs
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 const Footer = () => {
   const [visible, setVisible] = useState(false);
@@ -15,10 +15,9 @@ const Footer = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Map links to their actual routes
   const companyLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about#about-us' }, // Points to the ID in About.jsx
+    { name: 'About Us', path: '/about#about-us' },
     { name: 'Delivery', path: '/delivery#delivery' },
     { name: 'Privacy Policy', path: '/privacy#privacypolicy' }
   ];
@@ -76,33 +75,33 @@ const Footer = () => {
         className="noise-bg relative overflow-hidden bg-[#1a0f0b] text-[#b49e94] border-t border-[#4c2b23] font-body"
         id="footer"
       >
-        <div className="max-w-7xl mx-auto px-6 py-20 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24 lg:px-12 relative z-10">
           
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-16">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16">
             
             {/* COLUMN 1: BRAND */}
-            <div className="flex-1 space-y-10">
-              <div className="relative">
-                <h2 className="font-brand text-3xl lg:text-4xl font-bold text-[#f4e3d8] tracking-[0.2em] uppercase leading-none">
-                  Kruti <br/> Coffee
+            <div className="w-full lg:flex-1 space-y-8 lg:space-y-10 text-center lg:text-left">
+              <div className="relative inline-block lg:block">
+                <h2 className="font-brand text-2xl md:text-3xl lg:text-4xl font-bold text-[#f4e3d8] tracking-[0.2em] uppercase leading-tight">
+                  Kruti <br className="hidden lg:block"/> Coffee
                 </h2>
-                <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-[#4c2b23]"></div>
+                <div className="absolute -top-3 -left-3 lg:-top-4 lg:-left-4 w-8 h-8 lg:w-12 lg:h-12 border-t-2 border-l-2 border-[#4c2b23]"></div>
               </div>
               
-              <p className="font-serif-accent italic text-2xl lg:text-3xl text-[#f4e3d8]/80 max-w-sm leading-snug">
+              <p className="font-serif-accent italic text-xl md:text-2xl lg:text-3xl text-[#f4e3d8]/80 max-w-md mx-auto lg:mx-0 leading-snug">
                 "Where the soil of Koraput meets the <span className="text-[#b49e94]">spirit of the roast</span>."
               </p>
 
-              <div className="flex items-center gap-6">
+              <div className="flex items-center justify-center lg:justify-start gap-6">
                  {['Instagram', 'LinkedIn', 'Facebook'].map((social) => (
-                   <a key={social} href={`https://${social.toLowerCase()}.com`} target="_blank" rel="noreferrer" className="text-[10px] font-brand uppercase tracking-[0.3em] hover:text-[#f4e3d8] transition-colors">
+                   <a key={social} href={`https://${social.toLowerCase()}.com`} target="_blank" rel="noreferrer" className="text-[9px] lg:text-[10px] font-brand uppercase tracking-[0.3em] hover:text-[#f4e3d8] transition-colors">
                      {social}
                    </a>
                  ))}
               </div>
             </div>
 
-            {/* COLUMN 2: VERTICAL TEXT */}
+            {/* COLUMN 2: VERTICAL TEXT (Hidden on Mobile/Tablet) */}
             <div className="hidden lg:block">
               <span className="vertical-text text-[9px] font-brand uppercase tracking-[0.8em] opacity-20 h-40">
                 ESTABLISHED 2025 • ARTISANAL BATCHES
@@ -110,18 +109,17 @@ const Footer = () => {
             </div>
 
             {/* COLUMN 3: NAVIGATION */}
-            <div className="grid grid-cols-2 gap-16">
-              <div className="space-y-8">
+            <div className="w-full lg:w-auto grid grid-cols-1 sm:grid-cols-2 gap-10 md:gap-16">
+              <div className="space-y-6 lg:space-y-8 text-center sm:text-left">
                 <h4 className="font-brand text-[10px] font-bold uppercase tracking-[0.4em] text-[#ad8656]">Explore</h4>
-                <ul className="space-y-4">
+                <ul className="space-y-3 lg:space-y-4">
                   {companyLinks.map((link) => (
                     <li key={link.name}>
-                      {/* We use HashLink here so it can handle the #about-us anchor across pages */}
                       <HashLink 
                         smooth 
                         to={link.path} 
                         scroll={(el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                        className="link-reveal text-xs uppercase tracking-widest font-light"
+                        className="link-reveal text-[10px] md:text-xs uppercase tracking-widest font-light"
                       >
                         {link.name}
                       </HashLink>
@@ -130,12 +128,12 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-6 lg:space-y-8 text-center sm:text-left">
                 <h4 className="font-brand text-[10px] font-bold uppercase tracking-[0.4em] text-[#ad8656]">Connect</h4>
-                <ul className="space-y-4">
+                <ul className="space-y-3 lg:space-y-4">
                   {contactLinks.map((item) => (
                     <li key={item}>
-                      <span className="link-reveal text-xs font-light tracking-wider opacity-70 cursor-pointer">
+                      <span className="link-reveal text-[10px] md:text-xs font-light tracking-wider opacity-70 cursor-pointer">
                         {item}
                       </span>
                     </li>
@@ -145,30 +143,30 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* BACKGROUND DECORATION */}
-          <div className="absolute -bottom-10 right-0 pointer-events-none select-none overflow-hidden">
-            <h1 className="font-brand text-[15vw] font-black text-white/[0.02] leading-none uppercase tracking-tighter">
+          {/* BACKGROUND DECORATION (Size adjusted for mobile) */}
+          <div className="absolute -bottom-6 md:-bottom-10 right-0 pointer-events-none select-none overflow-hidden opacity-30 lg:opacity-100">
+            <h1 className="font-brand text-[20vw] lg:text-[15vw] font-black text-white/[0.02] leading-none uppercase tracking-tighter">
               KRUTI
             </h1>
           </div>
         </div>
 
         {/* COPYRIGHT BAR */}
-        <div className="bg-[#140c0a] border-t border-white/5 py-10">
-          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex gap-1">
+        <div className="bg-[#140c0a] border-t border-white/5 py-8 lg:py-10">
+          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-8">
+            <div className="hidden md:flex gap-1">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="w-1 h-1 bg-[#ad8656] rotate-45" />
               ))}
             </div>
             
-            <p className="font-brand text-[9px] tracking-[0.4em] text-[#b49e94]/40 uppercase text-center">
+            <p className="font-brand text-[8px] lg:text-[9px] tracking-[0.3em] lg:tracking-[0.4em] text-[#b49e94]/40 uppercase text-center">
               Copyright 2026 Kruti Coffee — Crafted by <span className="text-[#f4e3d8]">Shriya</span>
             </p>
 
             <div className="flex gap-6">
-               <span className="text-[9px] font-brand uppercase tracking-widest text-white/20">Privacy</span>
-               <span className="text-[9px] font-brand uppercase tracking-widest text-white/20">Terms</span>
+               <span className="text-[8px] lg:text-[9px] font-brand uppercase tracking-widest text-white/20">Privacy</span>
+               <span className="text-[8px] lg:text-[9px] font-brand uppercase tracking-widest text-white/20">Terms</span>
             </div>
           </div>
         </div>

@@ -85,17 +85,17 @@ const PlaceOrder = () => {
               <div className="space-y-8">
                 <div className="flex justify-between items-end">
                   <span className="text-sm font-medium uppercase tracking-widest opacity-70">Subtotal</span>
-                  <span className="text-2xl font-serif font-bold">${getTotalCartAmount().toFixed(2)}</span>
+                  <span className="text-2xl font-serif font-bold">₹{getTotalCartAmount().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-end">
                   <span className="text-sm font-medium uppercase tracking-widest opacity-70">Logistics</span>
-                  <span className="text-2xl font-serif font-bold">${deliveryFee.toFixed(2)}</span>
+                  <span className="text-2xl font-serif font-bold">₹{deliveryFee.toFixed(2)}</span>
                 </div>
                 
                 <div className="pt-8 mt-8 border-t-2 border-black/10">
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-black uppercase tracking-[0.3em]">Total amount</span>
-                    <span className="text-5xl font-serif font-bold tracking-tighter">${total.toFixed(2)}</span>
+                    <span className="text-5xl font-serif font-bold tracking-tighter">₹{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
