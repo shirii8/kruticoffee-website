@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import addIconWhite from "../../assets/frontend_assets/add_icon_white.png";
 import removeIconRed from "../../assets/frontend_assets/remove_icon_red.png";
 import addIconGreen from "../../assets/frontend_assets/add_icon_green.png";
+import fallbackImage from "../../assets/frontend_assets/food_1.png";
 import { StoreContext } from "../../context/StoreContext";
 
 // Ensure we destructure _id here
 const FoodItem = ({ _id, name, price, description, image }) => {
   const { cartItems, addToCart, removeFromCart, url } = useContext(StoreContext);
+  const defaultSrc = image ? (image.startsWith("http") ? image : `${url}/images/${image}`) : fallbackImage;
+  const [imageSrc, setImageSrc] = useState(defaultSrc);
+
+  const handleImageError = () => {
+    if (imageSrc !== fallbackImage) {
+      setImageSrc(fallbackImage);
+    }
+  };
+  const imageUrl = image ? (image.startsWith("http") ? image : `${url}/images/${image}`) : "";
 
   return (
     <div className="group relative w-full transition-all duration-500">
@@ -16,8 +26,9 @@ const FoodItem = ({ _id, name, price, description, image }) => {
         <div className="relative h-56 w-full overflow-hidden">
           <img
             className="w-full h-full object-cover transition-all duration-700 scale-105 group-hover:scale-100"
-            src={image.startsWith("http") ? image : `${url}/images/${image}`}
+            src={imageSrc}
             alt={name}
+            onError={handleImageError}
           />
 
           {/* Use _id instead of id here */}

@@ -14,7 +14,7 @@ const ImageUploader = () => {
 
     try {
       const res = await fetch(
-        `https://api.cloudinary.com/v1_1/dttnc62hp/image/upload`, // Replace with your cloud name
+        `https://api.cloudinary.com/v1_1/b5bwnmer/image/upload`, // Replace with your cloud name
         {
           method: "POST",
           body: data,

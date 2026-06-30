@@ -1,27 +1,91 @@
 import foodModel from "../models/foodModel.js";
 // import fs from "fs"; // No longer needed for Cloudinary, but kept for reference
 
+const normalizeValue = (value) => {
+    if (typeof value !== "string") return value;
+    const trimmed = value.trim();
+    if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+        return trimmed.slice(1, -1).trim();
+    }
+    return trimmed;
+};
+
+const getField = (source, key) => {
+    if (!source || typeof source !== "object") return undefined;
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+        return normalizeValue(source[key]);
+    }
+    const quotedKey = `\"${key}\"`;
+    const singleQuotedKey = `'${key}'`;
+    if (Object.prototype.hasOwnProperty.call(source, quotedKey)) {
+        return normalizeValue(source[quotedKey]);
+    }
+    if (Object.prototype.hasOwnProperty.call(source, singleQuotedKey)) {
+        return normalizeValue(source[singleQuotedKey]);
+    }
+    return undefined;
+};
+
 // @desc    Add food item to Cloudinary & MongoDB
 const addFood = async (req, res) => {
     try {
-        // This is now a full URL: https://res.cloudinary.com/...
-        const image_url = req.file.path; 
+        const name = getField(req.body, "name") || getField(req.query, "name");
+        const description = getField(req.body, "description") || getField(req.query, "description");
+        const category = getField(req.body, "category") || getField(req.query, "category");
+        const price = getField(req.body, "price") || getField(req.query, "price");
+        let image_url = "";
+
+        // Case A: If an image file was uploaded via form-data
+        if (req.file) {
+            image_url = req.file.path;
+        }
+        // Case B: If you are just passing an already existing Cloudinary URL string
+        else {
+            image_url = getField(req.body, "image") || getField(req.query, "image");
+        }
+
+        if (!name || !description || !price || !category || !image_url) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing required fields. Use JSON body, form-data, or query params for name, description, category, price and image.",
+            });
+        }
 
         const food = new foodModel({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            category: req.body.category,
-            image: image_url, // We save the link, not just the name
+            name,
+            description,
+            price: Number(price),
+            category,
+            image: image_url,
         });
 
         await food.save();
         res.json({ success: true, message: "Food Added Successfully" });
     } catch (error) {
-        console.error(error);
-        res.json({ success: false, message: "Error adding food" });
+        console.error("Error in addFood:", error);
+        res.status(500).json({ success: false, message: "Error adding food", error: error.message });
     }
 }
+// const addFood = async (req, res) => {
+//     try {
+//         // This is now a full URL: https://res.cloudinary.com/...
+//         const image_url = req.file.path; 
+
+//         const food = new foodModel({
+//             name: req.body.name,
+//             description: req.body.description,
+//             price: req.body.price,
+//             category: req.body.category,
+//             image: image_url, // We save the link, not just the name
+//         });
+
+//         await food.save();
+//         res.json({ success: true, message: "Food Added Successfully" });
+//     } catch (error) {
+//         console.error(error);
+//         res.json({ success: false, message: "Error adding food" });
+//     }
+// }
 
 /* // LOCALLY SAVED FILES LOGIC (OLD)
 const addFoodLocal = async(req, res) => {
