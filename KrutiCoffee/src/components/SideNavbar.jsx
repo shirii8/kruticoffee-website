@@ -26,9 +26,7 @@ const SideNavbar = () => {
               "ORIGINAL COFFEE",
               "SHOP",
               "CAFES",
-              // "ABOUT US",
               "HALL OF FAME",
-              // "LOGIN",
             ].map((item) => (
               <a
                 key={item}
