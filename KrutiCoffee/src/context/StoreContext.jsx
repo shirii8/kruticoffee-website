@@ -57,22 +57,23 @@ const StoreContextProvider = (props) => {
     //     }
     // };
 
+    const getFoodListFromResponse = (payload) => {
+        if (Array.isArray(payload)) return payload;
+        if (payload && Array.isArray(payload.data)) return payload.data;
+        if (payload && Array.isArray(payload.items)) return payload.items;
+        return [];
+    };
+
     const fetchFoodList = async () => {
-    try {
-        const response = await axios.get(url + "/api/food/list");
-        console.log("Full Response:", response.data); // Look at your console!
-        
-        // If your backend returns {success:true, data:[...]} use response.data.data
-        // If your backend returns just the array [...] use response.data
-        if(response.data.success) {
-            setFood_list(response.data.data);
-        } else {
-            setFood_list(response.data); 
+        try {
+            const response = await axios.get(url + "/api/food/list");
+            const list = getFoodListFromResponse(response.data);
+            setFood_list(list);
+        } catch (error) {
+            console.error("Backend is not responding!", error);
+            setFood_list([]);
         }
-    } catch (error) {
-        console.error("Backend is not responding!", error);
-    }
-};
+    };
 
     const loadCartData = async (token) => {
         const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });

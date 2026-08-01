@@ -3,6 +3,17 @@ import { StoreContext } from '../../context/StoreContext';
 import FoodItem from '../FoodItem/FoodItem';
 import { useNavigate } from 'react-router-dom';
 
+const normalizeCategory = (value) => {
+  if (!value) return "";
+  return String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+};
+
 const FoodDisplay = ({ category }) => {
   const { food_list, cartItems } = useContext(StoreContext);
   const navigate = useNavigate();
@@ -21,10 +32,10 @@ const FoodDisplay = ({ category }) => {
   }
 
   // 2. FILTER LOGIC (Normalized for safety)
+  const normalizedCategory = normalizeCategory(category);
   const filteredList = food_list.filter(item => {
-    if (category === "All") return true;
-    // This handles casing differences (e.g., "Hot Coffees" vs "hot coffees")
-    return item.category?.toLowerCase().trim() === category.toLowerCase().trim();
+    if (!normalizedCategory || normalizedCategory === "all") return true;
+    return normalizeCategory(item.category) === normalizedCategory;
   });
 
   return (
