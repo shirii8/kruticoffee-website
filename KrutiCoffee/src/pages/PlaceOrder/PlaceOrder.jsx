@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StoreContext } from "../../context/StoreContext";
-import axios from "axios";
+import { StoreContext } from "../../context/StoreContext.js";
 import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
-  const { getTotalCartAmount, cartItems, token, food_list, url } = useContext(StoreContext);
+  const { getTotalCartAmount } = useContext(StoreContext);
   const [data, setData] = useState({
     firstName: "", lastName: "", email: "", street: "",
     city: "", state: "", zipcode: "", country: "", phone: ""
@@ -19,14 +18,11 @@ const PlaceOrder = () => {
 
   const navigate=useNavigate();
 
-  useEffect(()=>{
-      if(!token){
-        navigate('/cart')
-      }
-      else if(getTotalCartAmount===0){
-        navigate('/cart');
-      }
-  },[token])
+  useEffect(() => {
+    if (getTotalCartAmount() === 0) {
+      navigate('/cart');
+    }
+  }, [getTotalCartAmount, navigate]);
 
   return (
     <div className="relative min-h-screen bg-[#0a0a0a] overflow-hidden font-sans text-[#f4e3d8] selection:bg-[#b49e94] selection:text-black">

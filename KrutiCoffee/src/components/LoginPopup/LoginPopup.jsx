@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import crossIcon from "../../assets/frontend_assets/cross_icon.png";
-import { StoreContext } from "../../context/StoreContext";
+import { StoreContext } from "../../context/StoreContext.js";
 import axios from "axios";
 
 const LoginPopup = ({ setShowLogin }) => {

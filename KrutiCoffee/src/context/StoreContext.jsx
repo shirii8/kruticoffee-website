@@ -1,8 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { StoreContext } from "./StoreContext.js";
 import { Shop_list } from "../assets/admin_assets/ShopJson.js";
 
-export const StoreContext = createContext(null);
+const COFFEE_FALLBACK_IMAGE = "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg";
 
 const fallbackFoodList = [
     {
@@ -10,7 +11,7 @@ const fallbackFoodList = [
         name: "South Indian Filter Coffee",
         description: "Authentic brew blended with hot frothy milk.",
         price: 175,
-        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        image: COFFEE_FALLBACK_IMAGE,
         category: "Hot Coffees",
     },
     {
@@ -115,16 +116,25 @@ const StoreContextProvider = (props) => {
         return [];
     };
 
-    const fetchFoodList = async () => {
+    const normalizeFetchedImage = (item) => {
+        const imageValue = item.image;
+        if (!imageValue || typeof imageValue !== "string") return COFFEE_FALLBACK_IMAGE;
+        return imageValue.trim() || COFFEE_FALLBACK_IMAGE;
+    };
+
+    const fetchFoodList = useCallback(async () => {
         try {
             const response = await axios.get(url + "/api/food/list");
-            const list = getFoodListFromResponse(response.data);
+            const list = getFoodListFromResponse(response.data).map((item) => ({
+                ...item,
+                image: normalizeFetchedImage(item),
+            }));
             setFood_list(list.length > 0 ? list : fallbackFoodList);
         } catch (error) {
             console.error("Backend is not responding!", error);
             setFood_list(fallbackFoodList);
         }
-    };
+    }, [url]);
 
     const loadCartData = async (token) => {
         const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
@@ -142,7 +152,7 @@ const StoreContextProvider = (props) => {
             }
         }
         loadData();
-    }, []);
+    }, [fetchFoodList]);
 
     const contextValue = {
         food_list,

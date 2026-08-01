@@ -4,12 +4,19 @@ import removeIconRed from "../../assets/frontend_assets/remove_icon_red.png";
 import addIconGreen from "../../assets/frontend_assets/add_icon_green.png";
 // Use iced-coffee image as fallback so salad placeholders show coffee
 const fallbackImage = "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg";
-import { StoreContext } from "../../context/StoreContext";
+import { StoreContext } from "../../context/StoreContext.js";
 
 // Ensure we destructure _id here
 const FoodItem = ({ _id, name, price, description, image }) => {
   const { cartItems, addToCart, removeFromCart, url } = useContext(StoreContext);
-  const defaultSrc = image ? (image.startsWith("http") ? image : `${url}/images/${image}`) : fallbackImage;
+  const getImageSource = () => {
+    if (!image) return fallbackImage;
+    if (image.startsWith("http")) return image;
+    if (image.startsWith("/")) return image;
+    return `${url}/images/${image}`;
+  };
+
+  const defaultSrc = getImageSource();
   const [imageSrc, setImageSrc] = useState(defaultSrc);
 
   const handleImageError = () => {
@@ -17,7 +24,6 @@ const FoodItem = ({ _id, name, price, description, image }) => {
       setImageSrc(fallbackImage);
     }
   };
-  const imageUrl = image ? (image.startsWith("http") ? image : `${url}/images/${image}`) : "";
 
   return (
     <div className="group relative w-full transition-all duration-500">

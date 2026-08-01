@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { StoreContext } from "../context/StoreContext";
+import React, { useContext } from "react";
+import { StoreContext } from "../context/StoreContext.js";
 import SideNavbar from "./SideNavbar";
 import TopNav from "./TopNav";
 import Hero from "./Hero";
