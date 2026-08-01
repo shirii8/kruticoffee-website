@@ -14,7 +14,16 @@ const normalizeCategory = (value) => {
     .replace(/\s+/g, " ");
 };
 
-const FoodDisplay = ({ category }) => {
+const normalizeText = (value) => {
+  if (!value) return "";
+  return String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+};
+
+const FoodDisplay = ({ category, searchTerm }) => {
   const { food_list, cartItems } = useContext(StoreContext);
   const navigate = useNavigate();
 
@@ -33,9 +42,16 @@ const FoodDisplay = ({ category }) => {
 
   // 2. FILTER LOGIC (Normalized for safety)
   const normalizedCategory = normalizeCategory(category);
+  const normalizedSearch = normalizeText(searchTerm);
   const filteredList = food_list.filter(item => {
-    if (!normalizedCategory || normalizedCategory === "all") return true;
-    return normalizeCategory(item.category) === normalizedCategory;
+    const matchesCategory = !normalizedCategory || normalizedCategory === "all"
+      ? true
+      : normalizeCategory(item.category) === normalizedCategory;
+
+    const matchesSearch = !normalizedSearch || [item.name, item.description, item.category]
+      .some((value) => normalizeText(value).includes(normalizedSearch));
+
+    return matchesCategory && matchesSearch;
   });
 
   return (

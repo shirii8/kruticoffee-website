@@ -4,6 +4,57 @@ import { Shop_list } from "../assets/admin_assets/ShopJson.js";
 
 export const StoreContext = createContext(null);
 
+const fallbackFoodList = [
+    {
+        _id: "fallback-hot-1",
+        name: "South Indian Filter Coffee",
+        description: "Authentic brew blended with hot frothy milk.",
+        price: 175,
+        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        category: "Hot Coffees",
+    },
+    {
+        _id: "fallback-cold-1",
+        name: "Vietnamese Style Cold Coffee",
+        description: "Dark filter coffee brewed over condensed milk for a rich, creamy finish.",
+        price: 235,
+        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        category: "Coffees Served Cold",
+    },
+    {
+        _id: "fallback-manual-1",
+        name: "Siphon Brew",
+        description: "Vacuum pressure brewing for tea-like clarity.",
+        price: 275,
+        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        category: "Manual Brews",
+    },
+    {
+        _id: "fallback-dessert-1",
+        name: "Classic Tiramisu",
+        description: "Coffee-soaked sponge with velvety mascarpone.",
+        price: 255,
+        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        category: "Signature Cakes & Desserts",
+    },
+    {
+        _id: "fallback-savory-1",
+        name: "Paneer Tikka Sandwich",
+        description: "Spiced cottage cheese in toasted sourdough.",
+        price: 185,
+        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        category: "Savory Selection",
+    },
+    {
+        _id: "fallback-mocktail-1",
+        name: "Espresso Tonic",
+        description: "Double shot espresso with tonic water and lime.",
+        price: 215,
+        image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg",
+        category: "Coffee Mocktails",
+    },
+];
+
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     const [food_list, setFood_list] = useState([]);
@@ -68,10 +119,10 @@ const StoreContextProvider = (props) => {
         try {
             const response = await axios.get(url + "/api/food/list");
             const list = getFoodListFromResponse(response.data);
-            setFood_list(list);
+            setFood_list(list.length > 0 ? list : fallbackFoodList);
         } catch (error) {
             console.error("Backend is not responding!", error);
-            setFood_list([]);
+            setFood_list(fallbackFoodList);
         }
     };
 

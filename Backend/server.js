@@ -16,12 +16,19 @@ const port = 4000
 
 // middleware
 app.use(express.json())
-app.use(cors({
-  origin: true,
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+  ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "token"],
+  allowedHeaders: ["Content-Type", "Authorization", "token", "x-requested-with"],
   credentials: true,
-}))
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 //db connection
 connectDB();

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { StoreContext } from "../../context/StoreContext";
 
@@ -22,8 +22,9 @@ const normalizeCategory = (value) => {
     .replace(/\s+/g, " ");
 };
 
-const ExploreMenu = ({ category, setCategory }) => {
+const ExploreMenu = ({ category, setCategory, searchTerm, setSearchTerm, searchFocusTrigger }) => {
   const { food_list } = useContext(StoreContext);
+  const searchInputRef = useRef(null);
 
   const menuList = useMemo(() => {
     const categories = (food_list || [])
@@ -37,6 +38,12 @@ const ExploreMenu = ({ category, setCategory }) => {
   }, [food_list]);
 
   const selectedCategory = normalizeCategory(category);
+
+  useEffect(() => {
+    if (searchFocusTrigger > 0) {
+      searchInputRef.current?.focus();
+    }
+  }, [searchFocusTrigger]);
 
   return (
     // Reduced padding from py-16 to py-6
@@ -55,6 +62,16 @@ const ExploreMenu = ({ category, setCategory }) => {
               Curated Koraput delicacies.
             </p>
           </div>
+        </div>
+
+        <div className="mb-4">
+          <input
+            ref={searchInputRef}
+            value={searchTerm || ""}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search drinks, desserts, savories..."
+            className="w-full max-w-md rounded-full border border-[#b49e94]/30 bg-white/10 px-4 py-2 text-sm text-[#f4e3d8] outline-none placeholder:text-[#b49e94]/40"
+          />
         </div>
 
         {/* COMPACT SLIDER */}

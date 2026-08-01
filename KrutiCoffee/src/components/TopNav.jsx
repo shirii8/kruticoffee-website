@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout }) => {
+const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout, onSearchClick }) => {
   const navigate = useNavigate();
 
   return (
@@ -15,7 +15,11 @@ const TopNav = ({ token, getTotalCartAmount, setShowLogin, logout }) => {
         <div className="flex items-center gap-5 px-4">
           
           {/* Search */}
-          <button className="group relative">
+          <button
+            className="group relative"
+            onClick={() => onSearchClick?.()}
+            aria-label="Search menu"
+          >
             <img
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtMjEgMjEtNC4zNC00LjM0Ii8+PGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIvPjwvc3ZnPg=="
               alt="search"

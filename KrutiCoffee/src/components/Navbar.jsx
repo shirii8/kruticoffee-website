@@ -4,7 +4,7 @@ import SideNavbar from "./SideNavbar";
 import TopNav from "./TopNav";
 import Hero from "./Hero";
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = ({ setShowLogin, onSearchClick }) => {
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
   
   // Logout logic maintained in the parent wrapper
@@ -36,6 +36,7 @@ const Navbar = ({ setShowLogin }) => {
           getTotalCartAmount={getTotalCartAmount} 
           setShowLogin={setShowLogin} 
           logout={logout} 
+          onSearchClick={onSearchClick} 
         />
 
         {/* 4. THE HERO SECTION */}
