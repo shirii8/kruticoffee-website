@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import addIconWhite from "../../assets/frontend_assets/add_icon_white.png";
 import removeIconRed from "../../assets/frontend_assets/remove_icon_red.png";
 import addIconGreen from "../../assets/frontend_assets/add_icon_green.png";
-import fallbackImage from "../../assets/frontend_assets/food_1.png";
+// Use iced-coffee image as fallback so salad placeholders show coffee
+const fallbackImage = "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg";
 import { StoreContext } from "../../context/StoreContext";
 
 // Ensure we destructure _id here
