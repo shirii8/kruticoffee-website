@@ -85,7 +85,8 @@ export const assets = {
 export const menu_list = [
     {
         menu_name: "Salad",
-        menu_image: menu_1
+        // Replaced the default green-salad image with an iced coffee image per request
+        menu_image: "https://res.cloudinary.com/dttnc62hp/image/upload/v1773683970/VietnameseIcedColdCoffee_ly5abn.jpg"
     },
     {
         menu_name: "Rolls",
